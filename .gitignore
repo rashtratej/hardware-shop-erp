@@ -1,0 +1,23 @@
+
+# Environment secrets
+.env
+.env.*
+
+# Keep the example environment file
+!.env.example
+
+# Java / Maven
+**/target/
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+.next/
+out/
