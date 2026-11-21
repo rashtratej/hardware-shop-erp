@@ -1,14 +1,11 @@
-
 spring:
   application:
     name: hardware-shop-erp
-
   datasource:
     url: jdbc:postgresql://localhost:${DB_PORT:5432}/${DB_NAME:hardware_erp}
     username: ${DB_USERNAME:hardware_admin}
-    password: ${DB_PASSWORD:password}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: validate
@@ -16,7 +13,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
   flyway:
     enabled: true
 
@@ -28,7 +24,19 @@ management:
     web:
       exposure:
         include: health,info
-
   endpoint:
     health:
       show-details: never
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    issuer: hardware-shop-erp
+    access-token-expiration: 900
+
+  bootstrap:
+    admin:
+      enabled: ${ERP_BOOTSTRAP_ADMIN_ENABLED:false}
+      email: ${ERP_BOOTSTRAP_ADMIN_EMAIL:}
+      display-name: ${ERP_BOOTSTRAP_ADMIN_DISPLAY_NAME:}
+      password: ${ERP_BOOTSTRAP_ADMIN_PASSWORD:}
