@@ -11,6 +11,8 @@ public record ProductResponse(
         String name,
         String description,
         String hsnCode,
+        UUID categoryId,
+        String categoryName,
         UUID uomId,
         String uomCode,
         String uomDisplayName,

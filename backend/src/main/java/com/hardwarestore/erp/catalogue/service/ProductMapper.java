@@ -15,12 +15,23 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getHsnCode(),
+
+                product.getCategory() != null
+                        ? product.getCategory().getId()
+                        : null,
+
+                product.getCategory() != null
+                        ? product.getCategory().getName()
+                        : null,
+
                 product.getUom().getId(),
                 product.getUom().getCode(),
                 product.getUom().getDisplayName(),
+
                 product.getGstRate().getId(),
                 product.getGstRate().getCode(),
                 product.getGstRate().getGstRate(),
+
                 product.getReorderLevel(),
                 product.getDefaultSalePrice(),
                 product.isActive(),

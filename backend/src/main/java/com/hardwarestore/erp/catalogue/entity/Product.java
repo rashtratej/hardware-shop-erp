@@ -2,6 +2,7 @@
 package com.hardwarestore.erp.catalogue.entity;
 
 import jakarta.persistence.Column;
+import com.hardwarestore.erp.catalogue.category.entity.ProductCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -40,6 +42,10 @@ public class Product {
 
     @Column(name = "hsn_code", nullable = false, length = 12)
     private String hsnCode;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private ProductCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uom_id", nullable = false)
@@ -78,6 +84,7 @@ public class Product {
             String name,
             String description,
             String hsnCode,
+            ProductCategory category,
             UnitOfMeasurement uom,
             GstRate gstRate,
             BigDecimal reorderLevel,
@@ -89,6 +96,7 @@ public class Product {
         product.name = name.trim();
         product.description = description;
         product.hsnCode = hsnCode.trim();
+        product.category = category;
         product.uom = uom;
         product.gstRate = gstRate;
         product.reorderLevel = reorderLevel;
@@ -98,6 +106,32 @@ public class Product {
         return product;
     }
 
+
+    public void update(
+            String sku,
+            String name,
+            String description,
+            String hsnCode,
+            ProductCategory category,
+            UnitOfMeasurement uom,
+            GstRate gstRate,
+            BigDecimal reorderLevel,
+            BigDecimal defaultSalePrice
+    ) {
+        this.sku = sku.trim();
+        this.name = name.trim();
+        this.description = description;
+        this.hsnCode = hsnCode.trim();
+        this.category = category;
+        this.uom = uom;
+        this.gstRate = gstRate;
+        this.reorderLevel = reorderLevel;
+        this.defaultSalePrice = defaultSalePrice;
+    }
+
+    public void changeActiveStatus(boolean active) {
+        this.active = active;
+    }
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = Instant.now();
@@ -105,6 +139,10 @@ public class Product {
 
     public UUID getId() {
         return id;
+    }
+
+    public ProductCategory getCategory() {
+        return category;
     }
 
     public String getSku() {

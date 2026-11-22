@@ -26,6 +26,8 @@ public record CreateProductRequest(
         @Size(max = 12)
         String hsnCode,
 
+        UUID categoryId,
+
         @NotNull
         UUID uomId,
 

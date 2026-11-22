@@ -10,9 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.hardwarestore.erp.catalogue.dto.UpdateProductRequest;
 
 import java.util.List;
 import java.util.UUID;
+import com.hardwarestore.erp.catalogue.dto.ProductPageResponse;
+import com.hardwarestore.erp.catalogue.dto.ChangeProductStatusRequest;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -39,12 +42,30 @@ public class ProductController {
                 ));
     }
 
+
+
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
-
-        List<ProductResponse> products =
-                productService.getAllActiveProducts();
+    public ResponseEntity<ApiResponse<ProductPageResponse>> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) UUID categoryId,
+            @RequestParam(required = false) UUID uomId,
+            @RequestParam(defaultValue = "true") boolean active,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        ProductPageResponse products = productService.searchProducts(
+                page,
+                size,
+                search,
+                categoryId,
+                uomId,
+                active,
+                sortBy,
+                direction
+        );
 
         return ResponseEntity.ok(
                 ApiResponse.success(
@@ -69,4 +90,39 @@ public class ProductController {
                 )
         );
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateProductRequest request
+    ) {
+        ProductResponse product =
+                productService.updateProduct(id, request);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Product updated successfully",
+                        product
+                )
+        );
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<ProductResponse>> changeProductStatus(
+            @PathVariable UUID id,
+            @Valid @RequestBody ChangeProductStatusRequest request
+    ) {
+        ProductResponse product =
+                productService.changeProductStatus(id, request);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        "Product status updated successfully",
+                        product
+                )
+        );
+    }
+
 }
