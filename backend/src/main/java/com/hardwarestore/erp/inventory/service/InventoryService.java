@@ -95,6 +95,25 @@ public class InventoryService {
         );
     }
 
+    @Transactional
+    public InventoryResponse receivePurchaseGoods(
+            UUID productId,
+            BigDecimal quantity,
+            UUID goodsReceiptId,
+            String notes,
+            String userId
+    ) {
+        return processMovement(
+                productId,
+                quantity,
+                "IN",
+                "GOODS_RECEIPT",
+                goodsReceiptId,
+                notes,
+                userId
+        );
+    }
+
     private InventoryResponse processMovement(
             UUID productId,
             BigDecimal change,
