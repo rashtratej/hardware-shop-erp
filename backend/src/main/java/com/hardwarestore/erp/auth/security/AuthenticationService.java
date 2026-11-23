@@ -1,9 +1,10 @@
 
-package com.hardwarestore.erp.auth.service;
+package com.hardwarestore.erp.auth.security;
+
+import com.hardwarestore.erp.auth.service.JwtService;
 
 import com.hardwarestore.erp.auth.entity.AppUser;
 import com.hardwarestore.erp.auth.repository.AppUserRepository;
-import com.hardwarestore.erp.auth.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

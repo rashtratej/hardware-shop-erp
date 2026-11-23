@@ -3,7 +3,7 @@ package com.hardwarestore.erp.auth.controller;
 
 import com.hardwarestore.erp.auth.dto.LoginRequest;
 import com.hardwarestore.erp.auth.dto.LoginResponse;
-import com.hardwarestore.erp.auth.service.AuthenticationService;
+import com.hardwarestore.erp.auth.security.AuthenticationService;
 import com.hardwarestore.erp.common.api.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;

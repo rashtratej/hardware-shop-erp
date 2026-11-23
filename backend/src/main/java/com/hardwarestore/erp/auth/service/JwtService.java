@@ -1,5 +1,5 @@
 
-package com.hardwarestore.erp.auth.security;
+package com.hardwarestore.erp.auth.service;
 
 import com.hardwarestore.erp.auth.entity.AppUser;
 import org.springframework.beans.factory.annotation.Value;

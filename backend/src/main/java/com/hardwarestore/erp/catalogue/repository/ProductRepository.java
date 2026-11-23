@@ -11,6 +11,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ProductRepository extends
         JpaRepository<Product, UUID>,
@@ -32,4 +36,11 @@ public interface ProductRepository extends
             Specification<Product> specification,
             Pageable pageable
     );
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("""
+       SELECT p FROM Product p
+       WHERE p.id = :id AND p.active = true
+       """)
+    Optional<Product> findActiveByIdForUpdate(@Param("id") UUID id);
 }
